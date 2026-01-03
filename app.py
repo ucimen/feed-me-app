@@ -10,7 +10,7 @@ MAX_TOTAL_QUESTIONS = 50
 MAX_TEXT_CHARS = 500        
 MAX_CHOICE_OPTIONS = 10     
 
-BASE_URL = "https://feedme-app.streamlit.app" 
+BASE_URL = "https://feed-me-demo.streamlit.app" 
 LOGO_DOSYA_ADI = "logo.png"
 
 # --- 2. KÜTÜPHANE KONTROLÜ ---
