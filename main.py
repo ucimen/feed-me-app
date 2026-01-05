@@ -455,44 +455,54 @@ else:
              else:
                 st.info(get_text("no_data"))
 
-        # --- YENİLENMİŞ AYARLAR SEKME MANTIĞI ---
+# --- AYARLAR SEKMESİ (DÜZELTİLDİ: FORM TEMİZLEME ÖZELLİĞİ EKLENDİ) ---
         with tab_settings:
             all_qs = db.get_all_questions(user.id)
             active_count = sum(1 for q in all_qs if q['is_active'])
             st.metric("Active Questions", f"{active_count} / {MAX_ACTIVE_QUESTIONS}")
-
+            
             with st.expander(f"➕ {get_text('add_q')}", expanded=False):
-                n_text = st.text_input(get_text("q_text"))
-                n_type_label = st.selectbox(get_text("q_type"), [
-                    ("rating_5", "⭐ 1-5"), ("rating_10", "🔢 1-10"), 
-                    ("rating_nps", "📊 NPS (0-10)"), ("text", "✍️ Text"), ("choice", "🔘 Choice")
-                ], format_func=lambda x: x[1])
-                is_choice = (n_type_label[0] == "choice")
-                n_options = st.text_input(get_text("options"), disabled=not is_choice, placeholder="Yes, No, Maybe" if is_choice else "---")
-                n_order = st.number_input(get_text("order"), min_value=1, value=len(all_qs)+1)
-
-                if st.button(get_text("save"), key="save_q_btn"):
-                    if n_text:
-                        db.add_question(user.id, n_text, n_type_label[0], n_options if is_choice else None, n_order)
-                        st.rerun()
-                    else:
-                        st.warning("Please enter question text.")
+                # BURASI DEĞİŞTİ: clear_on_submit=True ile form otomatik temizlenir
+                with st.form("add_question_form", clear_on_submit=True):
+                    n_text = st.text_input(get_text("q_text"))
+                    n_type_label = st.selectbox(get_text("q_type"), [
+                        ("rating_5", "⭐ 1-5"), ("rating_10", "🔢 1-10"), 
+                        ("rating_nps", "📊 NPS (0-10)"), ("text", "✍️ Text"), ("choice", "🔘 Choice")
+                    ], format_func=lambda x: x[1])
+                    
+                    is_choice = (n_type_label[0] == "choice")
+                    n_options = st.text_input(get_text("options"), disabled=not is_choice, placeholder="Yes, No, Maybe" if is_choice else "---")
+                    
+                    # Otomatik sıra numarası (Mevcut soru sayısı + 1)
+                    n_order = st.number_input(get_text("order"), min_value=1, value=len(all_qs)+1)
+                    
+                    # Normal button yerine form_submit_button kullanıyoruz
+                    submitted = st.form_submit_button(get_text("save"))
+                    
+                    if submitted:
+                        if n_text:
+                            db.add_question(user.id, n_text, n_type_label[0], n_options if is_choice else None, n_order)
+                            st.success("Saved! / Kaydedildi!") # Kullanıcıya geri bildirim
+                            time.sleep(0.5) # Mesajın görünmesi için kısa bir bekleme
+                            st.rerun()
+                        else:
+                            st.warning("Please enter question text.")
 
             st.divider()
-
+            
             # SORU LİSTESİ
             for q in all_qs:
                 c1, c2, c3 = st.columns([0.5, 8, 2])
-
+                
                 act = c1.checkbox("", value=q['is_active'], key=f"ac_{q['id']}", label_visibility="collapsed")
                 if act != q['is_active']:
                     db.toggle_question_active(q['id'], act)
                     st.rerun()
-
+                
                 c2.write(f"**{q['question_text']}**")
-
+                
                 if c3.button(get_text("delete"), key=f"del_{q['id']}", type="secondary"):
                     db.delete_question(q['id'])
                     st.rerun()
-
+                
                 st.markdown("<hr style='margin-top: 5px; margin-bottom: 5px; opacity: 0.3;'>", unsafe_allow_html=True)
