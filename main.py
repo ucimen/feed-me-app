@@ -207,6 +207,28 @@ st.markdown("""
     .stTabs [aria-selected="true"] p { color: #00C4B4 !important; }
     label[data-baseweb="checkbox"] { margin-top: 10px !important; }
 
+/* 10. DROPDOWN (SEÇİM KUTUSU) DÜZELTMESİ - DARK MODE UYUMLU */
+    
+    /* Menü kutusunun arka planını koyu yapıyoruz (Dark mode ile uyumlu) */
+    div[data-baseweb="popover"], div[data-baseweb="menu"], ul[data-baseweb="menu"] {
+        background-color: #262730 !important; /* Standart Koyu Gri */
+        border: 1px solid #464B5C !important; /* Çerçeve */
+    }
+    
+    /* Seçilmemiş seçeneklerin yazısını AÇIK GRİ yapıyoruz ki okunsun */
+    li[data-baseweb="option"] {
+        background-color: #262730 !important; /* Koyu zemin */
+        color: #E0E0E0 !important; /* <--- KRİTİK KISIM: Yazı rengi Açık Gri */
+    }
+    
+    /* Üzerine gelince veya seçiliyken yine bizim marka rengimiz (Turkuaz) olsun */
+    li[data-baseweb="option"]:hover, li[aria-selected="true"] {
+        background-color: #00C4B4 !important;
+        color: #FFFFFF !important;
+        font-weight: bold !important;
+    }
+
+
 </style>
 """, unsafe_allow_html=True)
 
