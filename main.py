@@ -10,7 +10,7 @@ from utils import get_text, language_selector, MAX_ACTIVE_QUESTIONS, MAX_TOTAL_Q
 import database as db
 
 # --- SAYFA AYARI ---
-BASE_URL = "https://feed-me-demo.streamlit.app" 
+BASE_URL = "https://feedmedemo.streamlit.app"
 st.set_page_config(page_title="Feed Me", page_icon="🦄", layout="centered")
 
 # --- SESSION STATE (HAFIZA) BAŞLATMA ---
