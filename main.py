@@ -207,24 +207,6 @@ st.markdown("""
     .stTabs [aria-selected="true"] p { color: #00C4B4 !important; }
     label[data-baseweb="checkbox"] { margin-top: 10px !important; }
 
-/* 10. DROPDOWN (SEÇİM KUTUSU) DÜZELTMESİ - MOBİL İÇİN KRİTİK EKLENTİ */
-    /* Açılır menünün arka planını zorla BEYAZ yapıyoruz */
-    div[data-baseweb="popover"], div[data-baseweb="menu"], ul[data-baseweb="menu"] {
-        background-color: #FFFFFF !important;
-        border: 1px solid #E0E0E0 !important;
-    }
-    /* Seçeneklerin arka planı beyaz, yazısı koyu olsun */
-    li[data-baseweb="option"] {
-        background-color: #FFFFFF !important;
-        color: #333333 !important;
-    }
-    /* Üzerine gelince veya seçiliyken hafif turkuaz olsun */
-    li[data-baseweb="option"]:hover, li[aria-selected="true"] {
-        background-color: #E0F7FA !important;
-        color: #00C4B4 !important;
-        font-weight: bold !important;
-    }
-
 </style>
 """, unsafe_allow_html=True)
 
